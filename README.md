@@ -17,4 +17,4 @@ An example app is available to showcase usage and functionaility. It can be foun
 ## Installation
 
 ### Swift Package Manager
-To install `SwiftyProse` using [Swift Package Manager](https://swift.org/package-manager/), add `.package(name: "SwiftyProse", url: https://github.com/MaciDE/RegionSelectionView.git", from: "1.0.0"),"` to your Package.swift, then follow [this](https://swift.org/package-manager#importing-dependencies) integration tutorial. 
+To install `RegionSelectionView` using [Swift Package Manager](https://swift.org/package-manager/), add `.package(name: "RegionSelectionView", url: https://github.com/MaciDE/RegionSelectionView.git", from: "1.0.0"),"` to your Package.swift, then follow [this](https://swift.org/package-manager#importing-dependencies) integration tutorial. 
