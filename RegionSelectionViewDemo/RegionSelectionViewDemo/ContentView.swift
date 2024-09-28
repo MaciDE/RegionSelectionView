@@ -21,17 +21,17 @@ struct ContentView: View {
       mapView: mapView,
       selectedRect: $selectedRect,
       relativeSelectedRect: $relativeSelectedRect,
-      padding: .init(
-        top: 24,
-        left: 24,
-        bottom: 24,
-        right: 24),
       onBeginResizing: {
         mapView.isUserInteractionEnabled = false
       },
       onEndResizing: {
         mapView.isUserInteractionEnabled = true
-      }
+      },
+      padding: .init(
+        top: 24,
+        left: 24,
+        bottom: 24,
+        right: 24)
     ).sheet(isPresented: .constant(true)) {
       HStack(spacing: 8) {
         Button {
