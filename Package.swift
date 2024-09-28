@@ -4,17 +4,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "RegionSelectionView",
-    platforms: [.iOS(.v17)],
-    products: [
-        .library(
-            name: "RegionSelectionView",
-            targets: ["RegionSelectionView"])
-    ],
-    targets: [
-        .target(
-            name: "RegionSelectionView",
-            dependencies: [])
-    ],
-    swiftLanguageVersions: [.v5]
+  name: "RegionSelectionView",
+  platforms: [.iOS(.v17)],
+  products: [
+    .library(
+      name: "RegionSelectionView",
+      targets: ["RegionSelectionView"])
+  ],
+  targets: [
+    .target(
+      name: "RegionSelectionView",
+      dependencies: [])
+  ],
+  swiftLanguageVersions: [.v5]
 )
