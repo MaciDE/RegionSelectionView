@@ -22,43 +22,41 @@ public struct RegionSelectionView: View {
   private let onBeginResizing: (() -> ())?
   private let onEndResizing: (() -> ())?
   
+  private let overlayRendererFor: ((_ mapView: MKMapView, _ overlay: any MKOverlay) -> MKOverlayRenderer)?
+  
   public var body: some View {
     ZStack {
-      MapViewRepresentable(mapView: mapView)
+      MapViewRepresentable(mapView: mapView, overlayRendererFor: overlayRendererFor)
       
-      if showCheckerboard {
-        ZStack {
-          Checkerboard(boxSize: 10)
-            .ignoresSafeArea()
-            .opacity(0.1)
-            .allowsHitTesting(false)
-          
-          RoundedRectangle(cornerRadius: 22.0)
-            .inset(by: 12)
-            .opacity(1)
-            .frame(
-              width: selectedRect.width,
-              height: selectedRect.height
-            )
-            .offset(x: selectedRect.origin.x, y: selectedRect.origin.y)
-            .blendMode(.destinationOut)
-            .allowsHitTesting(false)
-        }.compositingGroup()
-      }
+      ZStack {
+        Checkerboard(boxSize: 10)
+          .ignoresSafeArea()
+          .opacity(0.1)
+          .allowsHitTesting(false)
+        
+        RoundedRectangle(cornerRadius: 22.0)
+          .inset(by: 12)
+          .opacity(1)
+          .frame(
+            width: selectedRect.width,
+            height: selectedRect.height
+          )
+          .offset(x: selectedRect.origin.x, y: selectedRect.origin.y)
+          .blendMode(.destinationOut)
+          .allowsHitTesting(false)
+      }.compositingGroup()
       
-      if showResizableRectangle {
-        ResizableRectangle(
-          rect: $selectedRect,
-          relativeRect: $relativeSelectedRect,
-          min: .init(width: 110, height: 110),
-          padding: padding,
-          onBeginResizing: {
-            onBeginResizing?()
-          },
-          onEndResizing: {
-            onEndResizing?()
-          })
-      }
+      ResizableRectangle(
+        rect: $selectedRect,
+        relativeRect: $relativeSelectedRect,
+        min: .init(width: 110, height: 110),
+        padding: padding,
+        onBeginResizing: {
+          onBeginResizing?()
+        },
+        onEndResizing: {
+          onEndResizing?()
+        })
     }
     .ignoresSafeArea()
     .coordinateSpace(name: "resizeTargetArea")
@@ -72,7 +70,8 @@ public struct RegionSelectionView: View {
     onEndResizing: (() -> ())? = nil,
     padding: UIEdgeInsets? = nil,
     showCheckerboard: Binding<Bool>? = nil,
-    showResizableRectangle: Binding<Bool>? = nil
+    showResizableRectangle: Binding<Bool>? = nil,
+    overlayRendererFor: ((_ mapView: MKMapView, _ overlay: any MKOverlay) -> MKOverlayRenderer)? = nil
   ) {
     self.mapView = mapView
     self._selectedRect = selectedRect
@@ -82,5 +81,6 @@ public struct RegionSelectionView: View {
     self.padding = padding
     self._showCheckerboard = showCheckerboard ?? .constant(true)
     self._showResizableRectangle = showResizableRectangle ?? .constant(true)
+    self.overlayRendererFor = overlayRendererFor
   }
 }
