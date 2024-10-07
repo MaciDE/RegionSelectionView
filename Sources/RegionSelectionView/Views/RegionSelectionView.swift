@@ -28,35 +28,39 @@ public struct RegionSelectionView: View {
     ZStack {
       MapViewRepresentable(mapView: mapView, overlayRendererFor: overlayRendererFor)
       
-      ZStack {
-        Checkerboard(boxSize: 10)
-          .ignoresSafeArea()
-          .opacity(0.1)
-          .allowsHitTesting(false)
-        
-        RoundedRectangle(cornerRadius: 22.0)
-          .inset(by: 12)
-          .opacity(1)
-          .frame(
-            width: selectedRect.width,
-            height: selectedRect.height
-          )
-          .offset(x: selectedRect.origin.x, y: selectedRect.origin.y)
-          .blendMode(.destinationOut)
-          .allowsHitTesting(false)
-      }.compositingGroup()
-      
-      ResizableRectangle(
-        rect: $selectedRect,
-        relativeRect: $relativeSelectedRect,
-        min: .init(width: 110, height: 110),
-        padding: padding,
-        onBeginResizing: {
-          onBeginResizing?()
-        },
-        onEndResizing: {
-          onEndResizing?()
-        })
+      if showCheckerboard {
+        ZStack {
+          Checkerboard(boxSize: 10)
+            .ignoresSafeArea()
+            .opacity(0.1)
+            .allowsHitTesting(false)
+          
+          RoundedRectangle(cornerRadius: 22.0)
+            .inset(by: 12)
+            .opacity(1)
+            .frame(
+              width: selectedRect.width,
+              height: selectedRect.height
+            )
+            .offset(x: selectedRect.origin.x, y: selectedRect.origin.y)
+            .blendMode(.destinationOut)
+            .allowsHitTesting(false)
+        }.compositingGroup()
+      }
+
+      if showResizableRectangle {
+        ResizableRectangle(
+          rect: $selectedRect,
+          relativeRect: $relativeSelectedRect,
+          min: .init(width: 110, height: 110),
+          padding: padding,
+          onBeginResizing: {
+            onBeginResizing?()
+          },
+          onEndResizing: {
+            onEndResizing?()
+          })
+      }
     }
     .ignoresSafeArea()
     .coordinateSpace(name: "resizeTargetArea")
