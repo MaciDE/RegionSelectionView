@@ -22,11 +22,17 @@ public struct RegionSelectionView: View {
   private let onBeginResizing: (() -> ())?
   private let onEndResizing: (() -> ())?
   
+  // MKMapViewDelegate
   private let overlayRendererFor: ((_ mapView: MKMapView, _ overlay: any MKOverlay) -> MKOverlayRenderer)?
+  private let mapViewDidChangeVisibleRegion: ((_ mapView: MKMapView) -> Void)?
   
   public var body: some View {
     ZStack {
-      MapViewRepresentable(mapView: mapView, overlayRendererFor: overlayRendererFor)
+      MapViewRepresentable(
+        mapView: mapView,
+        overlayRendererFor: overlayRendererFor,
+        mapViewDidChangeVisibleRegion: mapViewDidChangeVisibleRegion
+      )
       
       if showCheckerboard {
         ZStack {
@@ -75,7 +81,8 @@ public struct RegionSelectionView: View {
     padding: UIEdgeInsets? = nil,
     showCheckerboard: Binding<Bool>? = nil,
     showResizableRectangle: Binding<Bool>? = nil,
-    overlayRendererFor: ((_ mapView: MKMapView, _ overlay: any MKOverlay) -> MKOverlayRenderer)? = nil
+    overlayRendererFor: ((_ mapView: MKMapView, _ overlay: any MKOverlay) -> MKOverlayRenderer)? = nil,
+    mapViewDidChangeVisibleRegion: ((_ mapView: MKMapView) -> Void)? = nil
   ) {
     self.mapView = mapView
     self._selectedRect = selectedRect
@@ -86,5 +93,6 @@ public struct RegionSelectionView: View {
     self._showCheckerboard = showCheckerboard ?? .constant(true)
     self._showResizableRectangle = showResizableRectangle ?? .constant(true)
     self.overlayRendererFor = overlayRendererFor
+    self.mapViewDidChangeVisibleRegion = mapViewDidChangeVisibleRegion
   }
 }

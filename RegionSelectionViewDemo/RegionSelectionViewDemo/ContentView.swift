@@ -31,7 +31,10 @@ struct ContentView: View {
         top: 24,
         left: 24,
         bottom: 24,
-        right: 24)
+        right: 24),
+      mapViewDidChangeVisibleRegion: { mapView in
+        print(mapView)
+      }
     ).sheet(isPresented: .constant(true)) {
       HStack(spacing: 8) {
         Button {
